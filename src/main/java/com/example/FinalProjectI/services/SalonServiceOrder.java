@@ -31,6 +31,7 @@ public class SalonServiceOrder {
 
         }catch (CustomDBException customDBException)
         {
+
             LOGGER.error(customDBException);
             CustomDBExceptionHandler.rollBack(connection);
             throw new CustomApplicationException("Failed to commit in Service section",customDBException.getMessage(),customDBException);
@@ -78,6 +79,28 @@ public class SalonServiceOrder {
         }
         return order;
     }
+
+   public Order findOrderByTimeSlot(int timeSlotId) throws CustomApplicationException {
+        Order order = null;
+        Connection connection = null;
+        try{
+            connection = MySQLDAOFactory.getConnection();
+            order = orderDao.findOrderByTimeSlot(timeSlotId,connection);
+            ConnectionNeedUtil.commit(connection);
+
+        }catch (CustomDBException customDBException)
+        {
+            LOGGER.error(customDBException);
+            CustomDBExceptionHandler.rollBack(connection);
+            throw new CustomApplicationException("Failed to commit in Service section",customDBException.getMessage(),customDBException);
+        }
+        finally {
+            CustomDBExceptionHandler.close(null,null,connection);
+        }
+        return order;
+    }
+
+
     public  boolean updateOrderAppliedStatus(int orderId,boolean isApplied) throws CustomApplicationException {
         boolean result = false;
         Connection connection = null;
@@ -155,6 +178,28 @@ public class SalonServiceOrder {
         return orderList;
     }
 
+
+ public    List<Order> findAllOrdersFromTimeOffsetLimit(LocalDate fromWhichDay ,boolean isApplied,int limit,int offset) throws CustomApplicationException {
+        List<Order> orderList = new ArrayList<>();
+        Connection connection = null;
+        try{
+            connection = MySQLDAOFactory.getConnection();
+            orderList = orderDao.findAllOrdersFromTimeOffsetLimit(fromWhichDay,isApplied,limit,offset,connection);
+            ConnectionNeedUtil.commit(connection);
+
+        }catch (CustomDBException customDBException)
+        {
+            LOGGER.error(customDBException);
+            CustomDBExceptionHandler.rollBack(connection);
+            throw new CustomApplicationException("Failed to commit in Service section",customDBException.getMessage(),customDBException);
+        }
+        finally {
+            CustomDBExceptionHandler.close(null,null,connection);
+        }
+        return orderList;
+    }
+
+
     public List<Order> findAllOrders() throws CustomApplicationException {
       List<Order> orderList = new ArrayList<>();
       Connection connection = null;
@@ -174,23 +219,5 @@ public class SalonServiceOrder {
         }
         return orderList;
     }
-    public List<Order> findPagesOrder(int startRow,int rowsPerPage) throws CustomApplicationException {
-        List<Order> orderList = new ArrayList<>();
-        Connection connection = null;
-        try{
-            connection = MySQLDAOFactory.getConnection();
-            orderList = orderDao.findPagesOrder(connection,startRow,rowsPerPage);
-            ConnectionNeedUtil.commit(connection);
 
-        }catch (CustomDBException customDBException)
-        {
-            LOGGER.error(customDBException);
-            CustomDBExceptionHandler.rollBack(connection);
-            throw new CustomApplicationException("Failed to commit in Service section",customDBException.getMessage(),customDBException);
-        }
-        finally {
-            CustomDBExceptionHandler.close(null,null,connection);
-        }
-        return orderList;
-    }
 }

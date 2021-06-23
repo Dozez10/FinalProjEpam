@@ -12,6 +12,8 @@ public class LogoutAction implements Action{
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.removeAttribute("Login");
+            session.removeAttribute("userType");
+            session.removeAttribute("userId");
             session.invalidate();
 
         }

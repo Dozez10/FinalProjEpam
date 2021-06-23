@@ -94,6 +94,27 @@ public class SalonServiceUser {
 
         return user;
     }
+
+    public User findUser(int userId) throws CustomApplicationException {
+
+        User user = null;
+        Connection connection = null;
+        try {
+            connection = MySQLDAOFactory.getConnection();
+            user = userDao.findUser(userId,connection);
+            ConnectionNeedUtil.commit(connection);
+        } catch (CustomDBException customDBException) {
+            LOGGER.error(customDBException);
+            CustomDBExceptionHandler.rollBack(connection);
+            throw new CustomApplicationException("Filed to commit in Service section",customDBException.getMessage(),customDBException,customDBException.getErrorCode());
+        } finally {
+            CustomDBExceptionHandler.close(null,null,connection);
+        }
+
+        return user;
+    }
+
+
     public boolean updateUser(String login,String newPassword) throws CustomDBException, CustomApplicationException {
         boolean result = false;
         Connection connection = null;

@@ -81,6 +81,7 @@ public class MySQLMasterDao implements MasterDao {
         }
 
         return result;
+
     }
 
     @Override
@@ -218,7 +219,353 @@ public class MySQLMasterDao implements MasterDao {
 
        return result;
  }
+@Override
+public List<Master> findMastersFilterByName(String orderByColumn,String orderingType,String masterName,int limit,int offset,Connection con) throws CustomDBException{
+    List<Master> masterList = new ArrayList<>();
+    PreparedStatement statement = null;
+    ResultSet rs = null;
+    try
+    {
+        //SELECT * FROM masters where masters.masterName = ? ORDER BY ? ? LIMIT ? OFFSET ?
+        StringBuilder sqlQuery = new StringBuilder(PropUtil.getQuery("findMastersFilterByName"));
+        int ind1 = sqlQuery.indexOf("?",sqlQuery.indexOf("?")+1);
+        sqlQuery.insert(ind1+1,orderByColumn);
+        sqlQuery.deleteCharAt(ind1);
+        ind1 = sqlQuery.indexOf("?",sqlQuery.indexOf("?")+1);
+        sqlQuery.insert(ind1+1,orderingType);
+        sqlQuery.deleteCharAt(ind1);
+        statement = con.prepareStatement(sqlQuery.toString());
+        statement.setString(1,masterName);
+        statement.setInt(2,limit);
+        statement.setInt(3,offset);
+        rs = statement.executeQuery();
+        while(rs.next())
+        {
+            Master master = new Master();
+            master.setMasterId(rs.getInt("masterId"));
+            master.setUserId(rs.getInt("userId"));
+            master.setUserType(rs.getString("userType"));
+            master.setStartTime(rs.getTime("startTime").toLocalTime());
+            master.setEndTime(rs.getTime("endTime").toLocalTime());
+            master.setMasterName(rs.getString("masterName"));
+            master.setRating(rs.getDouble("rating"));
+            masterList.add(master);
+        }
 
+
+    }
+    catch (SQLException sqlException)
+    {
+        LOGGER.error(sqlException);
+        throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+    }
+    finally
+    {
+
+        ConnectionNeedUtil.close(rs,statement,null);
+    }
+
+    return masterList;
+
+}
+    @Override
+    public List<Master> findMastersFilterByService(String orderByColumn,String orderingType,String serviceName,int limit,int offset,Connection con) throws CustomDBException{
+        List<Master> masterList = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            StringBuilder sqlQuery = new StringBuilder(PropUtil.getQuery("findMastersFilterByService"));
+            int ind1 = sqlQuery.indexOf("?",sqlQuery.indexOf("?")+1);
+            sqlQuery.insert(ind1+1,orderByColumn);
+            sqlQuery.deleteCharAt(ind1);
+            ind1 = sqlQuery.indexOf("?",sqlQuery.indexOf("?")+1);
+            sqlQuery.insert(ind1+1,orderingType);
+            sqlQuery.deleteCharAt(ind1);
+            statement = con.prepareStatement(sqlQuery.toString());
+            statement.setString(1,serviceName);
+            statement.setInt(2,limit);
+            statement.setInt(3,offset);
+            rs = statement.executeQuery();
+            while(rs.next())
+            {
+                Master master = new Master();
+                master.setMasterId(rs.getInt("masterId"));
+                master.setUserId(rs.getInt("userId"));
+                master.setUserType(rs.getString("userType"));
+                master.setStartTime(rs.getTime("startTime").toLocalTime());
+                master.setEndTime(rs.getTime("endTime").toLocalTime());
+                master.setMasterName(rs.getString("masterName"));
+                master.setRating(rs.getDouble("rating"));
+                masterList.add(master);
+            }
+
+
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+
+        return masterList;
+
+    }
+
+
+    @Override
+   public  List<Master> findMastersFilterByServiceByName(String orderByColumn,String orderingType,String masterName ,String serviceName,int limit,int offset,Connection con) throws CustomDBException{
+        List<Master> masterList = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            StringBuilder sqlQuery = new StringBuilder(PropUtil.getQuery("findMastersFilterByServiceByName"));
+            int ind1 = sqlQuery.indexOf("?",sqlQuery.indexOf("?")+1);
+            ind1 = sqlQuery.indexOf("?",ind1+1);
+            sqlQuery.insert(ind1+1,orderByColumn);
+            sqlQuery.deleteCharAt(ind1);
+            ind1 = sqlQuery.indexOf("?",ind1+1);
+            sqlQuery.insert(ind1+1,orderingType);
+            sqlQuery.deleteCharAt(ind1);
+            statement = con.prepareStatement(sqlQuery.toString());
+            statement.setString(1,serviceName);
+            statement.setString(2,masterName);
+            statement.setInt(3,limit);
+            statement.setInt(4,offset);
+            rs = statement.executeQuery();
+            while(rs.next())
+            {
+                Master master = new Master();
+                master.setMasterId(rs.getInt("masterId"));
+                master.setUserId(rs.getInt("userId"));
+                master.setUserType(rs.getString("userType"));
+                master.setStartTime(rs.getTime("startTime").toLocalTime());
+                master.setEndTime(rs.getTime("endTime").toLocalTime());
+                master.setMasterName(rs.getString("masterName"));
+                master.setRating(rs.getDouble("rating"));
+                masterList.add(master);
+            }
+
+
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+
+        return masterList;
+
+    }
+
+
+
+    @Override
+   public List<Master> findMastersOrdered(String orderByColumn,String orderingType,int limit,int offset,Connection con) throws CustomDBException{
+        List<Master> masterList = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            String sqlQuery =PropUtil.getQuery("findMastersOrdered")  ;
+            sqlQuery = sqlQuery.replaceFirst("[?]",orderByColumn);
+            sqlQuery = sqlQuery.replaceFirst("[?]",orderingType);
+            statement = con.prepareStatement(sqlQuery);
+            statement.setInt(1,limit);
+            statement.setInt(2,offset);
+            rs = statement.executeQuery();
+            while(rs.next())
+            {
+                Master master = new Master();
+                master.setMasterId(rs.getInt("masterId"));
+                master.setUserId(rs.getInt("userId"));
+                master.setUserType(rs.getString("userType"));
+                master.setStartTime(rs.getTime("startTime").toLocalTime());
+                master.setEndTime(rs.getTime("endTime").toLocalTime());
+                master.setMasterName(rs.getString("masterName"));
+                master.setRating(rs.getDouble("rating"));
+                masterList.add(master);
+            }
+
+
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+
+        return masterList;
+
+    }
+@Override
+   public int findMastersFilterByNameCount(String orderByColumn,String orderingType,String masterName,Connection con) throws CustomDBException
+    {
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        int result = 0;
+        try
+        {
+            StringBuilder sqlQuery =  new StringBuilder( PropUtil.getQuery("findMastersFilterByNameCount"));
+            int ind1 = sqlQuery.indexOf("?",sqlQuery.indexOf("?")+1);
+            sqlQuery.insert(ind1+1,orderByColumn);
+            sqlQuery.deleteCharAt(ind1);
+            ind1 = sqlQuery.indexOf("?",sqlQuery.indexOf("?")+1);
+            sqlQuery.insert(ind1+1,orderingType);
+            sqlQuery.deleteCharAt(ind1);
+            statement = con.prepareStatement(sqlQuery.toString());
+            statement.setString(1,masterName);
+            rs = statement.executeQuery();
+            if(rs.next())result = rs.getInt(1);
+
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+
+        }
+        finally
+        {
+            ConnectionNeedUtil.close(rs,statement,null);
+
+        }
+
+        return result;
+
+
+    }
+    @Override
+  public int findMastersFilterByServiceCount(String orderByColumn,String orderingType,String serviceName,Connection con) throws CustomDBException
+    {
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        int result = 0;
+        try
+        {
+            StringBuilder sqlQuery =  new StringBuilder( PropUtil.getQuery("findMastersFilterByServiceCount"));
+            int ind1 = sqlQuery.indexOf("?",sqlQuery.indexOf("?")+1);
+            sqlQuery.insert(ind1+1,orderByColumn);
+            sqlQuery.deleteCharAt(ind1);
+            ind1 = sqlQuery.indexOf("?",sqlQuery.indexOf("?")+1);
+            sqlQuery.insert(ind1+1,orderingType);
+            sqlQuery.deleteCharAt(ind1);
+            statement = con.prepareStatement(sqlQuery.toString());
+            statement.setString(1,serviceName);
+            rs = statement.executeQuery();
+            if(rs.next())result = rs.getInt(1);
+
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+
+        }
+        finally
+        {
+            ConnectionNeedUtil.close(rs,statement,null);
+
+        }
+
+        return result;
+
+
+
+    }
+
+ @Override
+   public int findMastersFilterByServiceByNameCount(String orderByColumn,String orderingType,String masterName ,String serviceName,Connection con) throws CustomDBException
+    {
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        int result = 0;
+        try
+        {
+            StringBuilder sqlQuery =  new StringBuilder( PropUtil.getQuery("findMastersFilterByServiceByNameCount"));
+            int ind1 = sqlQuery.indexOf("?",sqlQuery.indexOf("?")+1);
+            ind1 = sqlQuery.indexOf("?",ind1+1);
+            sqlQuery.insert(ind1+1,orderByColumn);
+            sqlQuery.deleteCharAt(ind1);
+            ind1 = sqlQuery.indexOf("?",ind1+1);
+            sqlQuery.insert(ind1+1,orderingType);
+            sqlQuery.deleteCharAt(ind1);
+            statement = con.prepareStatement(sqlQuery.toString());
+            statement.setString(1,serviceName);
+            statement.setString(2,masterName);
+            rs = statement.executeQuery();
+            if(rs.next())result = rs.getInt(1);
+
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+
+        }
+        finally
+        {
+            ConnectionNeedUtil.close(rs,statement,null);
+
+        }
+
+        return result;
+
+
+
+    }
+    @Override
+  public   int findMastersOrderedCount(String orderByColumn,String orderingType,Connection con) throws CustomDBException
+    {
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        int result = 0;
+        try
+        {
+
+            String sqlQuery =   PropUtil.getQuery("findMastersOrderedCount");
+            sqlQuery = sqlQuery.replaceFirst("[?]",orderByColumn);
+            sqlQuery = sqlQuery.replaceFirst("[?]",orderingType);
+            statement = con.prepareStatement(sqlQuery);
+            rs = statement.executeQuery();
+            if(rs.next())result = rs.getInt(1);
+
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+
+        }
+        finally
+        {
+            ConnectionNeedUtil.close(rs,statement,null);
+
+        }
+
+        return result;
+
+
+
+
+    }
     @Override
     public List<Master> findAllMaster(Connection con) throws CustomDBException {
         List<Master> masterList = new ArrayList<>();

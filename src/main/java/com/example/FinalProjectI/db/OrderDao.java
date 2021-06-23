@@ -10,12 +10,13 @@ public interface OrderDao {
     boolean insertOrder(Order order, Connection connection) throws CustomDBException;
     boolean deleteOrder(int orderId, Connection connection) throws CustomDBException;
     Order findOrder(int orderId, Connection connection) throws CustomDBException;
-
+    Order findOrderByTimeSlot(int timeSlotId, Connection connection) throws CustomDBException;
     boolean updateOrderAppliedStatus(int orderId,boolean isApplied, Connection connection) throws CustomDBException;
     boolean updateOrderDoneStatus(int orderId,boolean isDone, Connection connection) throws CustomDBException;
     boolean updateOrderTimeSlot(int orderId,int timeSlotId, Connection connection) throws CustomDBException;
     List<Order> findAllOrdersFromTime(LocalDate fromWhichDay ,boolean isApplied, Connection connection) throws CustomDBException;
+    List<Order> findAllOrdersFromTimeOffsetLimit(LocalDate fromWhichDay ,boolean isApplied,int limit,int offset, Connection connection) throws CustomDBException;
     List<Order> findAllOrders(Connection connection) throws CustomDBException;
-    List<Order> findPagesOrder(Connection connection,int startRow,int rowsPerPage) throws CustomDBException;
+
 
 }

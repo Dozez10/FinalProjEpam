@@ -11,6 +11,7 @@ public interface UserDao {
     boolean deleteUser(String login, Connection connection) throws CustomDBException;
     boolean validateUser(String login,String password,Connection connection) throws CustomDBException;
     User findUser(String login, Connection connection) throws CustomDBException;
+    User findUser(int userId, Connection connection) throws CustomDBException;
     boolean updateUser(String login,String newPassword,Connection connection) throws CustomDBException;
     List<User> findAllUser(Connection connection) throws CustomDBException;
 }

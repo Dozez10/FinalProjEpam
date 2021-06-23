@@ -30,7 +30,6 @@ public class DoRegistrationAction implements Action{
             serviceUser.insertUser(user);
         }catch (CustomApplicationException e){
             String errorMessage = e.getMessage();
-            System.out.println(e.getErrorCode());
             if(e.getErrorCode()==1062){
                  errorMessage = String.format("Your login %s or email %s already exists",login,email);
             }

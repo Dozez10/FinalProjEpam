@@ -29,10 +29,17 @@ public class MySQLOrderDao implements OrderDao {
             statement.setInt(1,order.getUserId());
             statement.setInt(2,order.getMasterId());
             statement.setInt(3,order.getServiceId());
+
             statement.setTimestamp(4, Timestamp.valueOf(order.getStartTime()));
+
+
             statement.setTimestamp(5, Timestamp.valueOf(order.getEndTime()));
+
+
             statement.setBoolean(6,order.isApplied());
+
             statement.setBoolean(7,order.isDone());
+
 
 
             if(statement.executeUpdate()>0)
@@ -42,11 +49,13 @@ public class MySQLOrderDao implements OrderDao {
                 order.setOrderId(rs.getInt(1));
                 result = true;
             }
+
         }
 
         catch (SQLException sqlException)
 
         {
+
             LOGGER.error(sqlException);
             throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
 
@@ -131,6 +140,51 @@ public class MySQLOrderDao implements OrderDao {
         }
 
        return order;
+    }
+    @Override
+    public Order findOrderByTimeSlot(int timeSlotId, Connection con) throws CustomDBException {
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        Order order = null;
+        try
+        {
+            String sqlQuery = PropUtil.getQuery("findOrderByTimeSlot");
+            statement = con.prepareStatement(sqlQuery);
+            statement.setInt(1,timeSlotId);
+            rs = statement.executeQuery();
+            if(rs.next())
+            {
+                order = new Order();
+                order.setOrderId(rs.getInt("orderId"));
+                order.setUserId(rs.getInt("userId"));
+                order.setMasterId(rs.getInt("masterId"));
+                order.setServiceId(rs.getInt("serviceId"));
+                order.setStartTime(rs.getTimestamp("startTime").toLocalDateTime());
+                order.setEndTime(rs.getTimestamp("endTime").toLocalDateTime());
+                order.setApplied(rs.getBoolean("isApplied"));
+                order.setDone(rs.getBoolean("isDone"));
+                order.setTimeSlotId(rs.getInt("timeSlotId"));
+
+            }
+
+
+        }
+
+        catch (SQLException sqlException)
+
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+
+        }
+
+        return order;
     }
 
     @Override
@@ -248,6 +302,53 @@ public class MySQLOrderDao implements OrderDao {
 
 
     }
+
+
+  public   List<Order> findAllOrdersFromTimeOffsetLimit(LocalDate fromWhichDay ,boolean isApplied,int limit,int offset, Connection con) throws CustomDBException
+    {
+
+        List<Order> orders = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            String sqlQuery = PropUtil.getQuery("findAllOrdersFromTimeOffsetLimit");
+            statement = con.prepareStatement(sqlQuery);
+            statement.setDate(1,Date.valueOf(fromWhichDay));
+            statement.setBoolean(2,isApplied);
+            statement.setInt(3,limit);
+            statement.setInt(4,offset);
+            rs = statement.executeQuery();
+            while(rs.next())
+            {
+                Order order = new Order();
+                order.setOrderId(rs.getInt("orderId"));
+                order.setUserId(rs.getInt("userId"));
+                order.setMasterId(rs.getInt("masterId"));
+                order.setServiceId(rs.getInt("serviceId"));
+                order.setStartTime(rs.getTimestamp("startTime").toLocalDateTime());
+                order.setEndTime(rs.getTimestamp("endTime").toLocalDateTime());
+                order.setApplied(rs.getBoolean("isApplied"));
+                order.setDone(rs.getBoolean("isDone"));
+                order.setTimeSlotId(rs.getInt("timeSlotId"));
+                orders.add(order);
+            }
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+        return orders;
+
+
+    }
+
  @Override
     public List<Order> findAllOrders(Connection con) throws CustomDBException {
         List<Order> orders = new ArrayList<>();
@@ -286,37 +387,4 @@ public class MySQLOrderDao implements OrderDao {
        return orders;
     }
 
-    @Override
-    public List<Order> findPagesOrder(Connection connection, int startRow, int rowsPerPage) throws CustomDBException {
-       ResultSet rs = null;
-        List<Order> orders = new ArrayList<>();
-       PreparedStatement statement=null;
-       try{
-           String query=PropUtil.getQuery("findPagesOrder");
-           statement = connection.prepareStatement(query);
-           statement.setInt(1,startRow);
-           statement.setInt(2,rowsPerPage);
-           rs = statement.executeQuery();
-           while(rs.next())
-           {
-               Order order = new Order();
-               order.setOrderId(rs.getInt("orderId"));
-               order.setUserId(rs.getInt("userId"));
-               order.setMasterId(rs.getInt("masterId"));
-               order.setServiceId(rs.getInt("serviceId"));
-               order.setStartTime(rs.getTimestamp("startTime").toLocalDateTime());
-               order.setEndTime(rs.getTimestamp("endTime").toLocalDateTime());
-               order.setApplied(rs.getBoolean("isApplied"));
-               order.setDone(rs.getBoolean("isDone"));
-               order.setTimeSlotId(rs.getInt("timeSlotId"));
-               orders.add(order);
-           }
-       } catch (SQLException sqlException) {
-           LOGGER.error(sqlException);
-           throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
-       }finally {
-           ConnectionNeedUtil.close(rs,statement,null);
-       }
-       return orders;
-    }
 }

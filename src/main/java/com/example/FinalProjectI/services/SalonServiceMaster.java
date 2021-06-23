@@ -109,6 +109,155 @@ public class SalonServiceMaster {
 
         return result;
     }
+
+    public  List<Master> findMastersFilterByName(String orderByColumn,String orderingType,String masterName,int limit,int offset) throws CustomApplicationException {
+
+        List<Master> masterList = null;
+        Connection connection = null;
+        try {
+            connection = MySQLDAOFactory.getConnection();
+            masterList = masterDao.findMastersFilterByName(orderByColumn,orderingType,masterName,limit,offset,connection);
+            ConnectionNeedUtil.commit(connection);
+        } catch (CustomDBException customDBException) {
+            LOGGER.error(customDBException);
+            CustomDBExceptionHandler.rollBack(connection);
+            throw new CustomApplicationException("Filed to commit in Service Section",customDBException.getMessage(),customDBException);
+        } finally {
+            CustomDBExceptionHandler.close(null,null,connection);
+        }
+
+        return masterList;
+    }
+   public List<Master> findMastersFilterByService(String orderByColumn,String orderingType,String serviceName,int limit,int offset) throws CustomApplicationException {
+
+        List<Master> masterList = null;
+        Connection connection = null;
+        try {
+            connection = MySQLDAOFactory.getConnection();
+            masterList = masterDao.findMastersFilterByService(orderByColumn,orderingType,serviceName,limit,offset,connection);
+            ConnectionNeedUtil.commit(connection);
+        } catch (CustomDBException customDBException) {
+            LOGGER.error(customDBException);
+            CustomDBExceptionHandler.rollBack(connection);
+            throw new CustomApplicationException("Filed to commit in Service Section",customDBException.getMessage(),customDBException);
+        } finally {
+            CustomDBExceptionHandler.close(null,null,connection);
+        }
+
+        return masterList;
+    }
+
+  public List<Master> findMastersFilterByServiceByName(String orderByColumn,String orderingType,String masterName ,String serviceName,int limit,int offset) throws CustomApplicationException {
+
+        List<Master> masterList = null;
+        Connection connection = null;
+        try {
+            connection = MySQLDAOFactory.getConnection();
+            masterList = masterDao.findMastersFilterByServiceByName(orderByColumn,orderingType,masterName,serviceName,limit,offset,connection);
+            ConnectionNeedUtil.commit(connection);
+        } catch (CustomDBException customDBException) {
+            LOGGER.error(customDBException);
+            CustomDBExceptionHandler.rollBack(connection);
+            throw new CustomApplicationException("Filed to commit in Service Section",customDBException.getMessage(),customDBException);
+        } finally {
+            CustomDBExceptionHandler.close(null,null,connection);
+        }
+
+        return masterList;
+    }
+
+  public   List<Master> findMastersOrdered(String orderByColumn,String orderingType,int limit,int offset) throws CustomApplicationException {
+
+        List<Master> masterList = null;
+        Connection connection = null;
+        try {
+            connection = MySQLDAOFactory.getConnection();
+            masterList = masterDao.findMastersOrdered(orderByColumn,orderingType,limit,offset,connection);
+            ConnectionNeedUtil.commit(connection);
+        } catch (CustomDBException customDBException) {
+            LOGGER.error(customDBException);
+            CustomDBExceptionHandler.rollBack(connection);
+            throw new CustomApplicationException("Filed to commit in Service Section",customDBException.getMessage(),customDBException);
+        } finally {
+            CustomDBExceptionHandler.close(null,null,connection);
+        }
+
+        return masterList;
+    }
+   public int findMastersFilterByNameCount(String orderByColumn,String orderingType,String masterName) throws CustomApplicationException {
+        int result ;
+        Connection connection = null;
+        try {
+            connection = MySQLDAOFactory.getConnection();
+            result = masterDao.findMastersFilterByNameCount(orderByColumn,orderingType,masterName,connection);
+            ConnectionNeedUtil.commit(connection);
+        } catch (CustomDBException customDBException) {
+            LOGGER.error(customDBException);
+            CustomDBExceptionHandler.rollBack(connection);
+            throw new CustomApplicationException("Filed to commit in Service Section",customDBException.getMessage(),customDBException);
+        } finally {
+            CustomDBExceptionHandler.close(null,null,connection);
+        }
+
+        return result;
+    }
+
+  public   int findMastersFilterByServiceCount(String orderByColumn,String orderingType,String serviceName) throws CustomApplicationException {
+        int result ;
+        Connection connection = null;
+        try {
+            connection = MySQLDAOFactory.getConnection();
+            result = masterDao.findMastersFilterByServiceCount(orderByColumn,orderingType,serviceName,connection);
+            ConnectionNeedUtil.commit(connection);
+        } catch (CustomDBException customDBException) {
+            LOGGER.error(customDBException);
+            CustomDBExceptionHandler.rollBack(connection);
+            throw new CustomApplicationException("Filed to commit in Service Section",customDBException.getMessage(),customDBException);
+        } finally {
+            CustomDBExceptionHandler.close(null,null,connection);
+        }
+
+        return result;
+    }
+
+   public int findMastersFilterByServiceByNameCount(String orderByColumn,String orderingType,String masterName ,String serviceName) throws CustomApplicationException {
+        int result ;
+        Connection connection = null;
+        try {
+            connection = MySQLDAOFactory.getConnection();
+            result = masterDao.findMastersFilterByServiceByNameCount(orderByColumn,orderingType,masterName,serviceName,connection);
+            ConnectionNeedUtil.commit(connection);
+        } catch (CustomDBException customDBException) {
+            LOGGER.error(customDBException);
+            CustomDBExceptionHandler.rollBack(connection);
+            throw new CustomApplicationException("Filed to commit in Service Section",customDBException.getMessage(),customDBException);
+        } finally {
+            CustomDBExceptionHandler.close(null,null,connection);
+        }
+
+        return result;
+    }
+
+   public int findMastersOrderedCount(String orderByColumn,String orderingType) throws CustomApplicationException {
+        int result ;
+        Connection connection = null;
+        try {
+            connection = MySQLDAOFactory.getConnection();
+            result = masterDao.findMastersOrderedCount(orderByColumn,orderingType,connection);
+            ConnectionNeedUtil.commit(connection);
+        } catch (CustomDBException customDBException) {
+            LOGGER.error(customDBException);
+            CustomDBExceptionHandler.rollBack(connection);
+            throw new CustomApplicationException("Filed to commit in Service Section",customDBException.getMessage(),customDBException);
+        } finally {
+            CustomDBExceptionHandler.close(null,null,connection);
+        }
+
+        return result;
+    }
+
+
+
     public List<Master> findAllMaster() throws CustomApplicationException {
 
        List<Master> masterList = null;
@@ -127,6 +276,7 @@ public class SalonServiceMaster {
 
         return masterList;
     }
+
     public int selectCountOfMasters() throws CustomApplicationException {
 
         int result = 0;

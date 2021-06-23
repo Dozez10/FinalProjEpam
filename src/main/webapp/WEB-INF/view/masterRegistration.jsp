@@ -50,7 +50,7 @@
                 </q-card-section>
             </q-card>
 
-                    <q-form action="masterMRegistration" method="post">
+                    <q-form action="masterMakeRegistration" method="post">
                         <q-input
                                 filled
                                 debounce="300"
@@ -113,7 +113,7 @@
                                 ></q-icon>
                             </template>
                         </q-input>
-                        <q-input debounce="400" filled name="startTime" label="Work-start-time" v-model="startTime" mask="##:##">
+                        <q-input debounce="400" filled name="startTime" label="<fmt:localeValue key="startTime"/>" v-model="startTime" mask="##:##">
                             <template v-slot:append>
                                 <q-icon name="access_time" class="cursor-pointer">
                                     <q-popup-proxy transition-show="scale" transition-hide="scale">
@@ -126,7 +126,7 @@
                                 </q-icon>
                             </template>
                         </q-input>
-                        <q-input debounce="400" filled name="endTime" label="Work-end-time" v-model="endTime" mask="##:##">
+                        <q-input debounce="400" filled name="endTime" label="<fmt:localeValue key="endTime"/>" v-model="endTime" mask="##:##">
                             <template v-slot:append>
                                 <q-icon name="access_time" class="cursor-pointer">
                                     <q-popup-proxy transition-show="scale" transition-hide="scale">
@@ -207,7 +207,7 @@
 
             },
             makeRecord(){
-                window.location.href='${pageContext.request.contextPath}'+'/pages/client/record?lang=${sessionScope.lang}';
+                window.location.href='${pageContext.request.contextPath}'+'/pages/client/makeRecord?lang=${sessionScope.lang}';
             },
             checkRecords(){
                 window.location.href='${pageContext.request.contextPath}'+'/pages/admin/records?lang=${sessionScope.lang}';

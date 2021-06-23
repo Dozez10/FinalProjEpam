@@ -145,6 +145,42 @@ public class MySQLUserDao implements UserDao {
     }
 
     @Override
+    public User findUser(int userId, Connection con) throws CustomDBException {
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        User user = null;
+        try
+        {
+            String sqlQuery =PropUtil.getQuery("findUserById");
+            statement = con.prepareStatement(sqlQuery);
+            statement.setInt(1,userId);
+            rs = statement.executeQuery();
+            if(rs.next())
+            {
+                user = new User();
+                user.setUserId(rs.getInt("userId"));
+                user.setUserType(rs.getString("userType"));
+                user.setUserPassword(rs.getString("userPassword"));
+                user.setUserLogin(rs.getString("userLogin"));
+                user.setUserEmail(rs.getString("userEmail"));
+
+            }
+
+        }
+
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("Properties not loaded properly",sqlException.getMessage(),sqlException, sqlException.getErrorCode());
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+        return user;
+    }
+    @Override
     public boolean updateUser(String login, String newPassword, Connection con) throws CustomDBException {
         String sqlQuery = null;
         try {

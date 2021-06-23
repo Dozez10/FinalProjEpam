@@ -157,13 +157,8 @@
             RegistrationPage(){
                 window.location.href ='${pageContext.request.contextPath}'+'/pages/guest/registration?lang=${sessionScope.lang}';
 
-            },
-            makeRecord(){
-                window.location.href='${pageContext.request.contextPath}'+'/pages/client/record?lang=${sessionScope.lang}';
-            },
-            checkRecords(){
-                window.location.href='${pageContext.request.contextPath}'+'/pages/admin/records?lang=${sessionScope.lang}';
             }
+
         },
         mounted: function(){
 

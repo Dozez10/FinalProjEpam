@@ -98,7 +98,7 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
                 timeSlot.setMasterId(rs.getInt("masterId"));
                 timeSlot.setTimeSlotId(timeSlotId);
                 timeSlot.setStartTime(rs.getTimestamp("startTime").toLocalDateTime());
-                timeSlot.setStartTime(rs.getTimestamp("endTime").toLocalDateTime());
+                timeSlot.setEndTime(rs.getTimestamp("endTime").toLocalDateTime());
                 timeSlot.setFree(rs.getBoolean("isFree"));
             }
 
@@ -160,6 +160,221 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
     }
 
     @Override
+    public  List<TimeSlot> findAllFreeTimeSlotByMasterLimitOffset(int masterId, LocalDate fromWhichDay, int limit,int offset, Connection con) throws CustomDBException {
+        List<TimeSlot> timeSlots = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            String sqlQuery = PropUtil.getQuery("findAllFreeTimeSlotByMasterLimitOffset");
+            statement = con.prepareStatement(sqlQuery);
+            statement.setInt(1,masterId);
+            statement.setDate(2,Date.valueOf(fromWhichDay));
+            statement.setInt(3,limit);
+            statement.setInt(4,offset);
+            rs = statement.executeQuery();
+            while(rs.next())
+            {
+                TimeSlot timeSlot = new TimeSlot();
+                timeSlot.setTimeSlotId(rs.getInt("timeSlotId"));
+                timeSlot.setMasterId(masterId);
+                timeSlot.setStartTime(rs.getTimestamp("startTime").toLocalDateTime());
+                timeSlot.setEndTime(rs.getTimestamp("endTime").toLocalDateTime());
+                timeSlot.setFree(rs.getBoolean("isFree"));
+                timeSlots.add(timeSlot);
+            }
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+        return timeSlots;
+    }
+
+
+    @Override
+    public  List<TimeSlot> findAllFreeTimeSlotByMasterDayLong(int masterId, LocalDate fromWhichDay, Connection con) throws CustomDBException {
+        List<TimeSlot> timeSlots = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            String sqlQuery = PropUtil.getQuery("findAllFreeTimeSlotByMasterDayLong");
+            statement = con.prepareStatement(sqlQuery);
+            statement.setInt(1,masterId);
+            statement.setDate(2,Date.valueOf(fromWhichDay));
+            rs = statement.executeQuery();
+            while(rs.next())
+            {
+                TimeSlot timeSlot = new TimeSlot();
+                timeSlot.setTimeSlotId(rs.getInt("timeSlotId"));
+                timeSlot.setMasterId(masterId);
+                timeSlot.setStartTime(rs.getTimestamp("startTime").toLocalDateTime());
+                timeSlot.setEndTime(rs.getTimestamp("endTime").toLocalDateTime());
+                timeSlot.setFree(rs.getBoolean("isFree"));
+                timeSlots.add(timeSlot);
+            }
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+        return timeSlots;
+    }
+
+
+    @Override
+    public  int findCountFreeSlotsByMastersDistinct(int masterId, LocalDate fromWhichDay, Connection con) throws CustomDBException {
+        int result = 0;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            String sqlQuery = PropUtil.getQuery("findCountFreeSlotsByMastersDistinct");
+            statement = con.prepareStatement(sqlQuery);
+            statement.setInt(1,masterId);
+            statement.setDate(2,Date.valueOf(fromWhichDay));
+            rs = statement.executeQuery();
+            if(rs.next())
+            {
+                result = rs.getInt(1);
+            }
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+        return result;
+    }
+
+    @Override
+    public  int findAllFreeTimeSlotByMasterCount(int masterId, LocalDate fromWhichDay, Connection con) throws CustomDBException {
+        int result = 0;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            String sqlQuery = PropUtil.getQuery("findAllFreeTimeSlotByMasterCount");
+            statement = con.prepareStatement(sqlQuery);
+            statement.setInt(1,masterId);
+            statement.setDate(2,Date.valueOf(fromWhichDay));
+            rs = statement.executeQuery();
+            if(rs.next())
+            {
+                result = rs.getInt(1);
+            }
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+        return result;
+    }
+
+    @Override
+    public  int findAllNotFreeTimeSlotByMasterCount(int masterId, LocalDate fromWhichDay, Connection con) throws CustomDBException {
+        int result = 0;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            String sqlQuery = PropUtil.getQuery("findAllNotFreeTimeSlotByMasterCount");
+            statement = con.prepareStatement(sqlQuery);
+            statement.setDate(1,Date.valueOf(fromWhichDay));
+            statement.setInt(2,masterId);
+            rs = statement.executeQuery();
+            if(rs.next())
+            {
+                result = rs.getInt(1);
+            }
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+        return result;
+    }
+
+
+
+    @Override
+    public  List<TimeSlot> findAllTimeSlotByMaster(int masterId, LocalDate fromWhichDay, Connection con) throws CustomDBException {
+        List<TimeSlot> timeSlots = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            String sqlQuery = PropUtil.getQuery("findAllTimeSlotByMaster");
+            statement = con.prepareStatement(sqlQuery);
+            statement.setInt(1,masterId);
+            statement.setDate(2,Date.valueOf(fromWhichDay));
+            rs = statement.executeQuery();
+            while(rs.next())
+            {
+                TimeSlot timeSlot = new TimeSlot();
+                timeSlot.setTimeSlotId(rs.getInt("timeSlotId"));
+                timeSlot.setMasterId(masterId);
+                timeSlot.setStartTime(rs.getTimestamp("startTime").toLocalDateTime());
+                timeSlot.setEndTime(rs.getTimestamp("endTime").toLocalDateTime());
+                timeSlot.setFree(rs.getBoolean("isFree"));
+                timeSlots.add(timeSlot);
+            }
+
+        }
+        catch (SQLException sqlException)
+        {
+
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+
+        return timeSlots;
+    }
+
+
+
+    @Override
     public  List<TimeSlot> findAllNotFreeTimeSlotByMaster(int masterId,LocalDate fromWhichDay,Connection con) throws CustomDBException {
 
         List<TimeSlot> timeSlots = new ArrayList<>();
@@ -168,6 +383,133 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
         try
         {
             String sqlQuery = PropUtil.getQuery("findAllNotFreeTimeSlotByMaster");
+            statement = con.prepareStatement(sqlQuery);
+            statement.setDate(1,Date.valueOf(fromWhichDay));
+            statement.setInt(2,masterId);
+            rs = statement.executeQuery();
+            while(rs.next())
+            {
+                TimeSlot timeSlot = new TimeSlot();
+                timeSlot.setTimeSlotId(rs.getInt("timeSlotId"));
+                timeSlot.setMasterId(masterId);
+                timeSlot.setStartTime(rs.getTimestamp("startTime").toLocalDateTime());
+                timeSlot.setEndTime(rs.getTimestamp("endTime").toLocalDateTime());
+                timeSlot.setFree(rs.getBoolean("isFree"));
+                timeSlots.add(timeSlot);
+            }
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+        return timeSlots;
+
+
+
+    }
+
+
+
+    @Override
+    public  List<TimeSlot> findAllNotFreeTimeSlotByMasterLimitOffset(int masterId,LocalDate fromWhichDay,int limit,int offset,Connection con) throws CustomDBException {
+
+        List<TimeSlot> timeSlots = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            String sqlQuery = PropUtil.getQuery("findAllNotFreeTimeSlotByMasterLimitOffset");
+            statement = con.prepareStatement(sqlQuery);
+            statement.setDate(1,Date.valueOf(fromWhichDay));
+            statement.setInt(2,masterId);
+            statement.setInt(3,limit);
+            statement.setInt(4,offset);
+            rs = statement.executeQuery();
+            while(rs.next())
+            {
+                TimeSlot timeSlot = new TimeSlot();
+                timeSlot.setTimeSlotId(rs.getInt("timeSlotId"));
+                timeSlot.setMasterId(masterId);
+                timeSlot.setStartTime(rs.getTimestamp("startTime").toLocalDateTime());
+                timeSlot.setEndTime(rs.getTimestamp("endTime").toLocalDateTime());
+                timeSlot.setFree(rs.getBoolean("isFree"));
+                timeSlots.add(timeSlot);
+            }
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+        return timeSlots;
+
+
+
+    }
+
+
+    @Override
+    public  List<TimeSlot> findAllNotFreeTimeSlotByMasterDayLong(int masterId,LocalDate fromWhichDay,Connection con) throws CustomDBException {
+
+        List<TimeSlot> timeSlots = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            String sqlQuery = PropUtil.getQuery("findAllNotFreeTimeSlotByMasterDayLong");
+            statement = con.prepareStatement(sqlQuery);
+            statement.setDate(1,Date.valueOf(fromWhichDay));
+            statement.setInt(2,masterId);
+            rs = statement.executeQuery();
+            while(rs.next())
+            {
+                TimeSlot timeSlot = new TimeSlot();
+                timeSlot.setTimeSlotId(rs.getInt("timeSlotId"));
+                timeSlot.setMasterId(masterId);
+                timeSlot.setStartTime(rs.getTimestamp("startTime").toLocalDateTime());
+                timeSlot.setEndTime(rs.getTimestamp("endTime").toLocalDateTime());
+                timeSlot.setFree(rs.getBoolean("isFree"));
+                timeSlots.add(timeSlot);
+            }
+        }
+        catch (SQLException sqlException)
+        {
+            LOGGER.error(sqlException);
+            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
+
+        }
+        finally
+        {
+
+            ConnectionNeedUtil.close(rs,statement,null);
+        }
+        return timeSlots;
+
+
+
+    }
+    @Override
+ public    List<TimeSlot> findAllNotFreeTimeSlotByMasterFromDay(int masterId,LocalDate fromWhichDay,Connection con)throws CustomDBException {
+
+        List<TimeSlot> timeSlots = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            String sqlQuery = PropUtil.getQuery("findAllNotFreeTimeSlotByMasterFromDay");
             statement = con.prepareStatement(sqlQuery);
             statement.setDate(1,Date.valueOf(fromWhichDay));
             statement.setInt(2,masterId);

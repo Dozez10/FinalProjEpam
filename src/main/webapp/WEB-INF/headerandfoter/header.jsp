@@ -94,9 +94,6 @@
                 </div>
     </q-btn-dropdown>
             </c:if>
-    <c:if test="${sessionScope.Login!=null||sessionScope.userType.equals('client')}">
-        <q-btn size="md" @click="makeRecord()" stretch flat label="<fmt:localeValue key="headerMakeRecord"/>"></q-btn>
-    </c:if>
     <q-separator dark vertical></q-separator>
     <q-btn size="md" :color="Eng" @click="ChangeToEng()"  label="EN"></q-btn>
     <q-btn size="md" :color="Ua" @click="ChangeToUa()"  label="UA"></q-btn>

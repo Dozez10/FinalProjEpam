@@ -19,6 +19,8 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
+
+
     <tag>
         <name>LValueParam</name>
         <tag-class>com.example.FinalProjectI.web.handler.LValueParamHandler</tag-class>
@@ -40,6 +42,8 @@
             <type>boolean</type>
         </attribute>
     </tag>
+
+
     <tag>
         <name>localeValue</name>
         <tag-class>com.example.FinalProjectI.web.handler.LocalValueHandler</tag-class>
@@ -50,8 +54,12 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
+
+
     <tag-file>
         <name>setLocale</name>
         <path>/WEB-INF/tags/setLocale.tag</path>
     </tag-file>
+
+
 </taglib>

@@ -24,6 +24,7 @@ public class LogInAction implements Action{
         if(user!=null&&serviceUser.validateUser(login,psw)){
             session.setAttribute("Login",login);
             session.setAttribute("userType",user.getUserType());
+            session.setAttribute("userId",user.getUserId());
             view.setView(request.getContextPath()+"/pages/index");
         } else{
             String error= "Your login or password is wrong";

@@ -13,11 +13,18 @@ public class ActionFactory {
       actions.put("GET/guest/registration",new RegistrationAction());
       actions.put("POST/guest/makeRegistration",new DoRegistrationAction());
       actions.put("POST/guest/login",new LogInAction());
-       actions.put("POST/user/logOut",new LogoutAction());
-      // actions.put("GET/admin/records",new GetRecordsAction());
-      //  actions.put("GET/admin/recordsJson",new GetRecordsAxiosAction());
-       actions.put("GET/guest/masterRegistration",new MasterRegistrationAction());
-       actions.put("POST/guest/masterMRegistration",new MasterMRegistration());
+      actions.put("POST/user/logOut",new LogoutAction());
+      actions.put("GET/admin/records",new GetRecordsAction());
+        actions.put("GET/admin/removeOrder",new RemoveOrderAction());
+        actions.put("GET/admin/applyOrder",new ApplyOrderAction());
+        actions.put("GET/admin/changeOrder",new ChangeOrderAction());
+        actions.put("POST/admin/pChangeOrder",new ChangePostOrderAction());
+        actions.put("GET/master/scheduleSlots",new ShowScheduleAction());
+        actions.put("GET/master/markSlotAsDone",new MarkDoneSlot());
+      actions.put("GET/client/makeRecord",new GetRecordClientAction());
+      actions.put("POST/client/makePostRecord",new MakeRecordClientAction());
+      actions.put("GET/guest/masterRegistration",new MasterRegistrationAction());
+      actions.put("POST/guest/masterMakeRegistration",new MasterMakeRegistration());
 
     }
     public static synchronized ActionFactory getInstance(){

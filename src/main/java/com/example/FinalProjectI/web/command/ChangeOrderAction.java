@@ -2,7 +2,6 @@ package com.example.FinalProjectI.web.command;
 
 import com.example.FinalProjectI.db.DAOFactory;
 import com.example.FinalProjectI.db.MasterDao;
-import com.example.FinalProjectI.db.OrderDao;
 import com.example.FinalProjectI.db.TimeSlotDao;
 import com.example.FinalProjectI.db.entity.Master;
 import com.example.FinalProjectI.db.entity.TimeSlot;
@@ -10,14 +9,15 @@ import com.example.FinalProjectI.db.mysql.MySQLDAOFactory;
 import com.example.FinalProjectI.services.SalonServiceMaster;
 import com.example.FinalProjectI.services.SalonServiceTimeSlot;
 import com.example.FinalProjectI.web.view.View;
-import org.apache.logging.log4j.util.PropertySource;
-import org.apache.logging.log4j.util.SystemPropertiesPropertySource;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * ChangeOrder
+ * @author Ivan Manuilenko
+ */
 public class ChangeOrderAction implements Action  {
     @Override
     public void execute(View view) throws Exception {

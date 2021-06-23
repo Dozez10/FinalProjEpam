@@ -3,7 +3,10 @@ package com.example.FinalProjectI.db.entity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Objects;
-
+/**
+ * Service entity
+ * @author Ivan Manuilenko
+ */
 public class Service {
     private int serviceId ;
     private String serviceType;

@@ -17,7 +17,20 @@ import java.util.List;
 public class SalonServiceMasterService {
     private static final Logger LOGGER = LogManager.getLogger(SalonServiceMasterService.class);
     private MasterServiceDao masterServiceDao ;
+    /**
+     * Sets dao
+     * @param masterServiceDao object which will be used
+     */
     public SalonServiceMasterService(MasterServiceDao masterServiceDao){this.masterServiceDao = masterServiceDao;}
+
+
+    /**
+     * Inserts MasterService entity into database table
+     * @param masterService entity to be inserted
+     * @return true if insert operation went without exception and false otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
     public  boolean insertMasterService(MasterService masterService) throws CustomApplicationException {
 
         boolean result = false;
@@ -36,6 +49,16 @@ public class SalonServiceMasterService {
 
         return result;
     }
+
+
+    /**
+     * Deletes MasterService entity from database table
+     * @param masterId id by which masterService to be deleted
+     * @param serviceId id by which masterService to be deleted
+     * @return true if delete operation went without exception and false otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
     public  boolean deleteMasterService(int masterId,int serviceId) throws CustomApplicationException {
 
         boolean result = false;
@@ -54,6 +77,15 @@ public class SalonServiceMasterService {
 
         return result;
     }
+
+    /**
+     * Find MasterService entities by filtering service name
+     @param masterId id to filter by
+      * @return List of MasterService entities if find operation went without exception and empty list otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
+
     public List<MasterService> findAllServicesByMaster(int masterId) throws CustomApplicationException {
 
         List<MasterService> masterServiceList = new ArrayList<>();
@@ -73,6 +105,15 @@ public class SalonServiceMasterService {
         return masterServiceList;
     }
 
+
+    /**
+     * Find MasterService entities by filtering service name
+     @param serviceId id to filter by
+      * @return List of MasterService entities if find operation went without exception and empty list otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
+
     public List<MasterService> findAllMastersByService(int serviceId) throws CustomApplicationException {
 
         List<MasterService> masterServiceList = new ArrayList<>();
@@ -91,6 +132,13 @@ public class SalonServiceMasterService {
 
         return masterServiceList;
     }
+
+    /**
+     * Find all MasterService entities
+     * @return  List of  MasterService entities  if find operation went without exception and empty list otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
     public List<MasterService> findAllMasterServices() throws CustomApplicationException {
 
        List<MasterService> masterServiceList = new ArrayList<>();

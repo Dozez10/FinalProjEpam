@@ -5,7 +5,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.time.LocalTime;
 import java.util.Objects;
-
+/**
+ * Master entity
+ * @author Ivan Manuilenko
+ */
 public class Master {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int masterId;

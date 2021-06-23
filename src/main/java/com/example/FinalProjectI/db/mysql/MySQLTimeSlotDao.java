@@ -17,6 +17,13 @@ import java.util.List;
 public class MySQLTimeSlotDao implements TimeSlotDao {
 
     private static final Logger LOGGER = LogManager.getLogger(MySQLTimeSlotDao.class);
+    /**
+     * Inserts TimeSlot entity into database table
+     * @param con object with database
+     * @param timeSlot entity to be inserted
+     * @return true if insert operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean insertTimeSlot(TimeSlot timeSlot, Connection con) throws CustomDBException {
         PreparedStatement statement = null;
@@ -52,7 +59,13 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
         }
         return result;
     }
-
+    /**
+     * Deletes TimeSlot entity from database table
+     * @param con object with database
+     * @param timeSlotId id by which timeSlot to be deleted
+     * @return true if delete operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean deleteTimeSlot(int timeSlotId, Connection con) throws CustomDBException {
         String sqlQuery = null;
@@ -80,6 +93,13 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
 
         return result;
     }
+    /**
+     * Find TimeSlot entity by type
+     * @param con object with database
+     * @param timeSlotId id by which TimeSlot to be find
+     * @return TimeSlot entity if find operation went without exception and null otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
 
     @Override
     public TimeSlot findTimeSlot(int timeSlotId, Connection con) throws CustomDBException {
@@ -121,7 +141,14 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
 
         return timeSlot;
     }
-
+    /**
+     * Find free TimeSlot entities by filtering Time with offset and limit
+     * @param con object with database
+     * @param masterId to filter by master id
+     @param fromWhichDay day from start find
+      * @return List of TimeSlots entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public  List<TimeSlot> findAllFreeTimeSlotByMaster(int masterId, LocalDate fromWhichDay, Connection con) throws CustomDBException {
         List<TimeSlot> timeSlots = new ArrayList<>();
@@ -158,7 +185,16 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
         }
         return timeSlots;
     }
-
+    /**
+     * Find free TimeSlot entities by filtering Time with offset and limit
+     * @param con object with database
+     * @param masterId to filter by master id
+     * @param limit to limit result set
+     * @param offset to offset result set
+     @param fromWhichDay day from start find
+      * @return List of TimeSlots entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public  List<TimeSlot> findAllFreeTimeSlotByMasterLimitOffset(int masterId, LocalDate fromWhichDay, int limit,int offset, Connection con) throws CustomDBException {
         List<TimeSlot> timeSlots = new ArrayList<>();
@@ -198,7 +234,14 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
         return timeSlots;
     }
 
-
+    /**
+     * Find free TimeSlot entities by filtering Time
+     * @param con object with database
+     * @param masterId to filter by master id
+     @param fromWhichDay day to  start find
+      * @return List of TimeSlots entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public  List<TimeSlot> findAllFreeTimeSlotByMasterDayLong(int masterId, LocalDate fromWhichDay, Connection con) throws CustomDBException {
         List<TimeSlot> timeSlots = new ArrayList<>();
@@ -236,7 +279,14 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
         return timeSlots;
     }
 
-
+    /**
+     * Find free TimeSlot count by filtering Time
+     * @param con object with database
+     * @param masterId to filter by master id
+     @param fromWhichDay day from   start find
+      * @return Count of TimeSlots entities if find operation went without exception and 0 otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public  int findCountFreeSlotsByMastersDistinct(int masterId, LocalDate fromWhichDay, Connection con) throws CustomDBException {
         int result = 0;
@@ -267,7 +317,14 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
         }
         return result;
     }
-
+    /**
+     * Find free TimeSlot count by filtering Time
+     * @param con object with database
+     * @param masterId to filter by master id
+     @param fromWhichDay day from   start find
+      * @return Count of TimeSlots entities if find operation went without exception and 0 otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public  int findAllFreeTimeSlotByMasterCount(int masterId, LocalDate fromWhichDay, Connection con) throws CustomDBException {
         int result = 0;
@@ -298,7 +355,14 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
         }
         return result;
     }
-
+    /**
+     * Find not free TimeSlot count by filtering Time
+     * @param con object with database
+     * @param masterId to filter by master id
+     @param fromWhichDay day from   start find
+      * @return Count of TimeSlots entities if find operation went without exception and 0 otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public  int findAllNotFreeTimeSlotByMasterCount(int masterId, LocalDate fromWhichDay, Connection con) throws CustomDBException {
         int result = 0;
@@ -330,7 +394,14 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
         return result;
     }
 
-
+    /**
+     * Find TimeSlot count by filtering Time
+     * @param con object with database
+     * @param masterId to filter by master id
+     @param fromWhichDay day from   start find
+      * @return List of Time Slot entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
 
     @Override
     public  List<TimeSlot> findAllTimeSlotByMaster(int masterId, LocalDate fromWhichDay, Connection con) throws CustomDBException {
@@ -373,7 +444,14 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
     }
 
 
-
+    /**
+     * Find not free TimeSlot count by filtering Time
+     * @param con object with database
+     * @param masterId to filter by master id
+     @param fromWhichDay day from   start find
+      * @return List of Time Slot entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public  List<TimeSlot> findAllNotFreeTimeSlotByMaster(int masterId,LocalDate fromWhichDay,Connection con) throws CustomDBException {
 
@@ -416,7 +494,15 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
     }
 
 
+    /**
+     * Find not free TimeSlot count by filtering Time with offset and limit
+     * @param con object with database
+     * @param masterId to filter by master id
+     @param fromWhichDay day from   start find
 
+      * @return List of Time Slot entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public  List<TimeSlot> findAllNotFreeTimeSlotByMasterLimitOffset(int masterId,LocalDate fromWhichDay,int limit,int offset,Connection con) throws CustomDBException {
 
@@ -460,7 +546,15 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
 
     }
 
+    /**
+     * Find not free TimeSlot count by filtering Time
+     * @param con object with database
+     * @param masterId to filter by master id
+     @param fromWhichDay day from   start find
 
+      * @return List of Time Slot entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public  List<TimeSlot> findAllNotFreeTimeSlotByMasterDayLong(int masterId,LocalDate fromWhichDay,Connection con) throws CustomDBException {
 
@@ -501,6 +595,15 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
 
 
     }
+    /**
+     * Find not free TimeSlot count by filtering Time
+     * @param con object with database
+     * @param masterId to filter by master id
+     @param fromWhichDay day from   start find
+
+      * @return List of Time Slot entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
  public    List<TimeSlot> findAllNotFreeTimeSlotByMasterFromDay(int masterId,LocalDate fromWhichDay,Connection con)throws CustomDBException {
 
@@ -541,7 +644,12 @@ public class MySQLTimeSlotDao implements TimeSlotDao {
 
 
     }
-
+    /**
+     * Find all Time slot entities
+     * @param con object with database
+     * @return  List of  Service entities  if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public List<TimeSlot> findAllTimeSlots(Connection con) throws CustomDBException {
         List<TimeSlot> timeSlots = new ArrayList<>();

@@ -14,7 +14,13 @@ import java.util.List;
 
 public class MySQLUserDao implements UserDao {
     private static final Logger LOGGER = LogManager.getLogger(MySQLUserDao.class);
-
+    /**
+     * Inserts User entity into database table
+     * @param con object with database
+     * @param user entity to be inserted
+     * @return true if insert operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean insertUser(User user, Connection con) throws CustomDBException {
         PreparedStatement statement = null;
@@ -52,7 +58,13 @@ public class MySQLUserDao implements UserDao {
        return result;
 
     }
-
+    /**
+     * Deletes user entity from database table
+     * @param con object with database
+     * @param login login by which user to be deleted
+     * @return true if delete operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean deleteUser(String login,Connection con) throws CustomDBException {
 
@@ -79,7 +91,14 @@ public class MySQLUserDao implements UserDao {
 
        return result;
     }
-
+    /**
+     * Validate user entity in database table
+     * @param con object with database
+     * @param login login by which user to be validated
+     * @param  password password by which user to be validated
+     * @return true if delete operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean validateUser(String login, String password,Connection con) throws CustomDBException {
 
@@ -106,6 +125,16 @@ public class MySQLUserDao implements UserDao {
 
        return result;
     }
+
+
+    /**
+     * Find User entity by type
+     * @param con object with database
+     * @param login id by which TimeSlot to be find
+     * @return User entity if find operation went without exception and null otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
+
 
     @Override
     public User findUser(String login, Connection con) throws CustomDBException {
@@ -144,6 +173,16 @@ public class MySQLUserDao implements UserDao {
        return user;
     }
 
+
+    /**
+     * Find User entity by id
+     * @param con object with database
+     * @param userId id by which user to be find
+     * @return User entity if find operation went without exception and null otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
+
+
     @Override
     public User findUser(int userId, Connection con) throws CustomDBException {
         PreparedStatement statement = null;
@@ -180,6 +219,17 @@ public class MySQLUserDao implements UserDao {
         }
         return user;
     }
+
+
+    /**
+     * Updates User entity applied status  by orderId
+     * @param con object with database
+     * @param login login by which user to be find
+     * @param newPassword new password  to update
+     * @return true if update operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
+
     @Override
     public boolean updateUser(String login, String newPassword, Connection con) throws CustomDBException {
         String sqlQuery = null;
@@ -207,7 +257,12 @@ public class MySQLUserDao implements UserDao {
 
        return result;
     }
-
+    /**
+     * Find all User slot entities
+     * @param con object with database
+     * @return  List of  User entities  if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public List<User> findAllUser(Connection con) throws CustomDBException {
         List<User> userList = new ArrayList<>();

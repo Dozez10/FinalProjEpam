@@ -4,7 +4,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-
+/**
+ * Order entity
+ * @author Ivan Manuilenko
+ */
 public class Order {
     private int orderId;
     private int userId;

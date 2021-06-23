@@ -19,8 +19,17 @@ import java.util.List;
 public class SalonServiceOrder {
     private static final Logger LOGGER = LogManager.getLogger(SalonServiceOrder.class);
     private OrderDao orderDao;
+    /**
+     * Sets dao
+     * @param orderDao object which will be used
+     */
     public SalonServiceOrder(OrderDao orderDao){this.orderDao = orderDao;}
-
+    /**
+     * Inserts Order entity into database table
+     * @param order entity to be inserted
+     * @return true if insert operation went without exception and false otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
     public boolean insertOrder(Order order) throws CustomApplicationException {
         boolean result = false;
         Connection connection = null;
@@ -41,6 +50,15 @@ public class SalonServiceOrder {
         }
         return result;
     }
+
+    /**
+     * Deletes Order entity from database table
+     * @param orderId id by which masterService to be deleted
+     * @return true if delete operation went without exception and false otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
+
     public boolean deleteOrder(int orderId) throws CustomApplicationException {
         boolean result = false;
         Connection connection = null;
@@ -60,6 +78,15 @@ public class SalonServiceOrder {
         }
         return result;
     }
+
+    /**
+     * Find Order entity by login
+     * @param orderId id by which order to be find
+     * @return Order entity if find operation went without exception and null otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
+
     public Order findOrder(int orderId) throws CustomApplicationException {
        Order order = null;
        Connection connection = null;
@@ -79,7 +106,12 @@ public class SalonServiceOrder {
         }
         return order;
     }
-
+    /**
+     * Find Order entity by id
+     * @param timeSlotId id by which order to be find
+     * @return Order entity if find operation went without exception and null otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
    public Order findOrderByTimeSlot(int timeSlotId) throws CustomApplicationException {
         Order order = null;
         Connection connection = null;
@@ -101,6 +133,15 @@ public class SalonServiceOrder {
     }
 
 
+    /**
+     * Updates Order entity applied status  by orderId
+     * @param orderId id by which order to be find
+     * @param isApplied new applied status to update
+     * @return true if update operation went without exception and false otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
+
     public  boolean updateOrderAppliedStatus(int orderId,boolean isApplied) throws CustomApplicationException {
         boolean result = false;
         Connection connection = null;
@@ -120,6 +161,16 @@ public class SalonServiceOrder {
         }
         return result;
     }
+
+    /**
+     * Updates Order entity Done status  by orderId
+     * @param orderId id by which order to be find
+     * @param isDone new Done status to update
+     * @return true if update operation went without exception and false otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
+
     public    boolean updateOrderDoneStatus(int orderId,boolean isDone) throws CustomApplicationException {
         boolean result = false;
         Connection connection = null;
@@ -139,6 +190,17 @@ public class SalonServiceOrder {
         }
         return result;
     }
+
+
+    /**
+     * Updates Order entity timeSlotId  by orderId
+     * @param orderId id by which order to be find
+     * @param timeSlotId new timeSlotId  to update
+     * @return true if update operation went without exception and false otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
+
     public  boolean updateOrderTimeSlot(int orderId,int timeSlotId) throws CustomApplicationException {
         boolean result = false;
         Connection connection = null;
@@ -158,6 +220,16 @@ public class SalonServiceOrder {
         }
         return result;
     }
+
+    /**
+     * Find Orders entities by filtering Time
+     @param fromWhichDay day from start find
+     @param isApplied status to find order
+      * @return List of Orders entities if find operation went without exception and empty list otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
+
     public   List<Order> findAllOrdersFromTime(LocalDate fromWhichDay , boolean isApplied) throws CustomApplicationException {
         List<Order> orderList = new ArrayList<>();
         Connection connection = null;
@@ -178,7 +250,15 @@ public class SalonServiceOrder {
         return orderList;
     }
 
-
+    /**
+     * Find Orders entities by filtering Time with offset and limit
+     @param fromWhichDay day from start find
+     @param isApplied status to find order
+     @param limit to limit result set
+     @param offset to offset from position
+      * @return List of Orders entities if find operation went without exception and empty list otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
  public    List<Order> findAllOrdersFromTimeOffsetLimit(LocalDate fromWhichDay ,boolean isApplied,int limit,int offset) throws CustomApplicationException {
         List<Order> orderList = new ArrayList<>();
         Connection connection = null;
@@ -199,25 +279,5 @@ public class SalonServiceOrder {
         return orderList;
     }
 
-
-    public List<Order> findAllOrders() throws CustomApplicationException {
-      List<Order> orderList = new ArrayList<>();
-      Connection connection = null;
-        try{
-            connection = MySQLDAOFactory.getConnection();
-            orderList = orderDao.findAllOrders(connection);
-            ConnectionNeedUtil.commit(connection);
-
-        }catch (CustomDBException customDBException)
-        {
-            LOGGER.error(customDBException);
-            CustomDBExceptionHandler.rollBack(connection);
-            throw new CustomApplicationException("Failed to commit in Service section",customDBException.getMessage(),customDBException);
-        }
-        finally {
-            CustomDBExceptionHandler.close(null,null,connection);
-        }
-        return orderList;
-    }
 
 }

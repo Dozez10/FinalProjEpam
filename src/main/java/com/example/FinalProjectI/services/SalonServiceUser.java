@@ -17,10 +17,23 @@ import java.util.List;
 public class SalonServiceUser {
     private static final Logger LOGGER = LogManager.getLogger(SalonServiceUser.class);
   private final UserDao userDao;
+    /**
+     * Sets dao
+     * @param userDao object which will be used
+     */
   public SalonServiceUser(UserDao userDao)
   {
       this.userDao = userDao;
   }
+
+
+    /**
+     * Inserts User entity into database table
+     * @param user entity to be inserted
+     * @return true if insert operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
+
   public boolean insertUser(User user) throws CustomApplicationException {
 
       boolean result = false;
@@ -39,6 +52,15 @@ public class SalonServiceUser {
 
       return result;
   }
+
+
+    /**
+     * Deletes user entity from database table
+     * @param login login by which user to be deleted
+     * @return true if delete operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
+
     public boolean deleteUser(String login) throws CustomApplicationException {
 
         boolean result = false;
@@ -58,6 +80,15 @@ public class SalonServiceUser {
         return result;
     }
 
+    /**
+     * Validate user entity in database table
+     * @param login login by which user to be validated
+     * @param  password password by which user to be validated
+     * @return true if delete operation went without exception and false otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
+
     public boolean validateUser(String login,String password) throws CustomApplicationException {
 
         boolean result = false;
@@ -76,6 +107,14 @@ public class SalonServiceUser {
 
         return result;
     }
+
+    /**
+     * Find User entity by type
+     * @param login id by which TimeSlot to be find
+     * @return User entity if find operation went without exception and null otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
     public User findUser(String login) throws CustomApplicationException {
 
         User user = null;
@@ -94,6 +133,15 @@ public class SalonServiceUser {
 
         return user;
     }
+
+
+    /**
+     * Find User entity by id
+     * @param userId id by which user to be find
+     * @return User entity if find operation went without exception and null otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
 
     public User findUser(int userId) throws CustomApplicationException {
 
@@ -115,6 +163,16 @@ public class SalonServiceUser {
     }
 
 
+
+
+    /**
+     * Updates User entity applied status  by orderId
+     * @param login login by which user to be find
+     * @param newPassword new password  to update
+     * @return true if update operation went without exception and false otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
     public boolean updateUser(String login,String newPassword) throws CustomDBException, CustomApplicationException {
         boolean result = false;
         Connection connection = null;
@@ -135,6 +193,13 @@ public class SalonServiceUser {
         }
         return result;
     }
+
+    /**
+     * Find all User slot entities
+     * @return  List of  User entities  if find operation went without exception and empty list otherwise
+     * @throws CustomApplicationException if SQLException at execution query arises
+     */
+
     public List<User> findAllUser() throws CustomDBException, CustomApplicationException {
        List<User> userList = new ArrayList<>();
        Connection connection = null;

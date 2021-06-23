@@ -4,7 +4,10 @@ package com.example.FinalProjectI.db.entity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Objects;
-
+/**
+ * User entity
+ * @author Ivan Manuilenko
+ */
 public class User {
     private int userId;
     private String userType;

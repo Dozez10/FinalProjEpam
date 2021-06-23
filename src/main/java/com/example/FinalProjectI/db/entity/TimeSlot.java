@@ -5,7 +5,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-
+/**
+ * TimeSlot entity
+ * @author Ivan Manuilenko
+ */
 public class TimeSlot {
     private int timeSlotId;
     private int  masterId ;

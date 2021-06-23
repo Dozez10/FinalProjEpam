@@ -3,7 +3,10 @@ package com.example.FinalProjectI.web.command;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Holder for all actions
+ * @author Ivan Manuilenko
+ */
 public class ActionFactory {
     private static ActionFactory actionFactory;
     private Map<String,Action> actions;

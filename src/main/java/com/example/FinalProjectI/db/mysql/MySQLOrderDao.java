@@ -13,9 +13,18 @@ import java.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Data access object for MasterService related entities
+ */
 public class MySQLOrderDao implements OrderDao {
     private static final Logger LOGGER = LogManager.getLogger(MySQLOrderDao.class);
+    /**
+     * Inserts Order entity into database table
+     * @param con object with database
+     * @param order entity to be inserted
+     * @return true if insert operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean insertOrder(Order order, Connection con) throws CustomDBException {
 
@@ -67,7 +76,13 @@ public class MySQLOrderDao implements OrderDao {
        return result;
 
     }
-
+    /**
+     * Deletes Order entity from database table
+     * @param con object with database
+     * @param orderId id by which masterService to be deleted
+     * @return true if delete operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean deleteOrder(int orderId, Connection con) throws CustomDBException {
         String sqlQuery = null;
@@ -95,7 +110,13 @@ public class MySQLOrderDao implements OrderDao {
         return result;
 
     }
-
+    /**
+     * Find Order entity by login
+     * @param con object with database
+     * @param orderId id by which order to be find
+     * @return Order entity if find operation went without exception and null otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public Order findOrder(int orderId, Connection con) throws CustomDBException {
 
@@ -141,6 +162,15 @@ public class MySQLOrderDao implements OrderDao {
 
        return order;
     }
+
+    /**
+     * Find Order entity by id
+     * @param con object with database
+     * @param timeSlotId id by which order to be find
+     * @return Order entity if find operation went without exception and null otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
+
     @Override
     public Order findOrderByTimeSlot(int timeSlotId, Connection con) throws CustomDBException {
 
@@ -186,7 +216,14 @@ public class MySQLOrderDao implements OrderDao {
 
         return order;
     }
-
+    /**
+     * Updates Order entity applied status  by orderId
+     * @param con object with database
+     * @param orderId id by which order to be find
+     * @param isApplied new applied status to update
+     * @return true if update operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean updateOrderAppliedStatus(int orderId, boolean isApplied, Connection con) throws CustomDBException {
 
@@ -211,7 +248,14 @@ public class MySQLOrderDao implements OrderDao {
         }
        return result;
     }
-
+    /**
+     * Updates Order entity Done status  by orderId
+     * @param con object with database
+     * @param orderId id by which order to be find
+     * @param isDone new Done status to update
+     * @return true if update operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean updateOrderDoneStatus(int orderId, boolean isDone, Connection con) throws CustomDBException {
         String sqlQuery = null;
@@ -235,6 +279,16 @@ public class MySQLOrderDao implements OrderDao {
         }
        return result;
     }
+
+    /**
+     * Updates Order entity timeSlotId  by orderId
+     * @param con object with database
+     * @param orderId id by which order to be find
+     * @param timeSlotId new timeSlotId  to update
+     * @return true if update operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
+
     @Override
    public boolean updateOrderTimeSlot(int orderId,int timeSlotId, Connection con) throws CustomDBException
     {
@@ -260,6 +314,14 @@ public class MySQLOrderDao implements OrderDao {
         }
         return result;
     }
+    /**
+     * Find Orders entities by filtering Time
+     * @param con object with database
+        @param fromWhichDay day from start find
+        @param isApplied status to find order
+      * @return List of Orders entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
    public   List<Order> findAllOrdersFromTime(LocalDate fromWhichDay ,boolean isApplied, Connection con) throws CustomDBException
     {
 
@@ -303,7 +365,16 @@ public class MySQLOrderDao implements OrderDao {
 
     }
 
-
+    /**
+     * Find Orders entities by filtering Time with offset and limit
+     * @param con object with database
+     @param fromWhichDay day from start find
+     @param isApplied status to find order
+     @param limit to limit result set
+     @param offset to offset from position
+      * @return List of Orders entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
   public   List<Order> findAllOrdersFromTimeOffsetLimit(LocalDate fromWhichDay ,boolean isApplied,int limit,int offset, Connection con) throws CustomDBException
     {
 
@@ -348,7 +419,12 @@ public class MySQLOrderDao implements OrderDao {
 
 
     }
-
+    /**
+     * Find all Order entities
+     * @param con object with database
+     * @return  List of  Order entities  if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
  @Override
     public List<Order> findAllOrders(Connection con) throws CustomDBException {
         List<Order> orders = new ArrayList<>();

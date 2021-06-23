@@ -12,11 +12,20 @@ import java.sql.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Data access object for Master related entities
+ */
 public class MySQLMasterDao implements MasterDao {
     private static final Logger LOGGER = LogManager.getLogger(MySQLMasterDao.class);
+    /**
+     * Inserts Master entity into database table
+     * @param con object with database
+     * @param master entity to be inserted
+     * @return true if insert operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
-    public boolean insertMaster(Master master, Connection con) throws CustomDBException {
+    public boolean insertMaster(Master master, Connection con) throws CustomDBException,SQLException {
 
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -54,38 +63,16 @@ public class MySQLMasterDao implements MasterDao {
     return result;
  }
 
+
+    /**
+     * Deletes Master entity from database table
+     * @param con object with database
+     * @param login login by which master to be deleted
+     * @return true if delete operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
-    public int selectCountOfMasters(Connection con) throws CustomDBException {
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        int result = 0;
-        try
-        {
-            String sqlQuery = PropUtil.getQuery("countMasters");
-            statement = con.prepareStatement(sqlQuery);
-
-           rs = statement.executeQuery();
-         if(rs.next())result = rs.getInt(1);
-
-        }
-        catch (SQLException sqlException)
-        {
-            LOGGER.error(sqlException);
-            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
-
-        }
-        finally
-        {
-            ConnectionNeedUtil.close(rs,statement,null);
-
-        }
-
-        return result;
-
-    }
-
-    @Override
-    public boolean deleteMaster(String login, Connection con) throws CustomDBException {
+    public boolean deleteMaster(String login, Connection con) throws CustomDBException, SQLException{
 
         String sqlQuery = null;
         try {
@@ -110,9 +97,15 @@ public class MySQLMasterDao implements MasterDao {
 
     return result;
  }
-
+    /**
+     * Find Master entity by login
+     * @param con object with database
+     * @param login login by which master to be find
+     * @return Master entity if find operation went without exception and null otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
-    public Master findMaster(String login, Connection con) throws CustomDBException {
+    public Master findMaster(String login, Connection con) throws CustomDBException,SQLException {
 
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -152,8 +145,15 @@ public class MySQLMasterDao implements MasterDao {
 
      return master;
  }
+    /**
+     * Find Master entity by id
+     * @param con object with database
+     * @param masterId id by which master to be find
+     * @return Master entity if find operation went without exception and null otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
-    public Master findMasterById(int masterId, Connection con) throws CustomDBException {
+    public Master findMasterById(int masterId, Connection con) throws CustomDBException,SQLException {
 
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -192,9 +192,17 @@ public class MySQLMasterDao implements MasterDao {
 
         return master;
     }
-
+    /**
+     * Updates Master entity start time and end time by login
+     * @param con object with database
+     * @param login login by which master to be updated
+     * @param startTime to be updated
+     * @param endTime to be updated
+     * @return Master entity if delete operation went without exception and null otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
-    public boolean updateMaster(String login, LocalTime startTime, LocalTime endTime , Connection con ) throws CustomDBException {
+    public boolean updateMaster(String login, LocalTime startTime, LocalTime endTime , Connection con ) throws CustomDBException,SQLException {
         String sqlQuery = null;
         try {
             sqlQuery = PropUtil.getQuery("updateMaster");
@@ -219,8 +227,17 @@ public class MySQLMasterDao implements MasterDao {
 
        return result;
  }
+    /**
+     * Find Master entities by filtering name
+     * @param con object with database
+     * @param orderByColumn column to order by
+     * @param orderingType type of ordering
+     * @param masterName master name to find
+     * @return List of Master entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
 @Override
-public List<Master> findMastersFilterByName(String orderByColumn,String orderingType,String masterName,int limit,int offset,Connection con) throws CustomDBException{
+public List<Master> findMastersFilterByName(String orderByColumn,String orderingType,String masterName,int limit,int offset,Connection con) throws CustomDBException,SQLException{
     List<Master> masterList = new ArrayList<>();
     PreparedStatement statement = null;
     ResultSet rs = null;
@@ -268,8 +285,17 @@ public List<Master> findMastersFilterByName(String orderByColumn,String ordering
     return masterList;
 
 }
+    /**
+     * Find Master entities by filtering service name
+     * @param con object with database
+     * @param orderByColumn column to order by
+     * @param orderingType type of ordering
+     * @param serviceName service name to find
+     * @return List of Master entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
-    public List<Master> findMastersFilterByService(String orderByColumn,String orderingType,String serviceName,int limit,int offset,Connection con) throws CustomDBException{
+    public List<Master> findMastersFilterByService(String orderByColumn,String orderingType,String serviceName,int limit,int offset,Connection con) throws CustomDBException,SQLException{
         List<Master> masterList = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -317,9 +343,18 @@ public List<Master> findMastersFilterByName(String orderByColumn,String ordering
 
     }
 
-
+    /**
+     * Find Master entities by filtering service name  and masterName
+     * @param con object with database
+     * @param orderByColumn column to order by
+     * @param orderingType type of ordering
+     * @param serviceName service name to find
+     * @param masterName masterName to find
+     * @return List of Master entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
-   public  List<Master> findMastersFilterByServiceByName(String orderByColumn,String orderingType,String masterName ,String serviceName,int limit,int offset,Connection con) throws CustomDBException{
+   public  List<Master> findMastersFilterByServiceByName(String orderByColumn,String orderingType,String masterName ,String serviceName,int limit,int offset,Connection con) throws CustomDBException,SQLException{
         List<Master> masterList = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -370,9 +405,16 @@ public List<Master> findMastersFilterByName(String orderByColumn,String ordering
     }
 
 
-
+    /**
+     * Find Master entities ordered
+     * @param con object with database
+     * @param orderByColumn column to order by
+     * @param orderingType type of ordering
+     * @return List of Master entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
-   public List<Master> findMastersOrdered(String orderByColumn,String orderingType,int limit,int offset,Connection con) throws CustomDBException{
+   public List<Master> findMastersOrdered(String orderByColumn,String orderingType,int limit,int offset,Connection con) throws CustomDBException,SQLException{
         List<Master> masterList = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -414,8 +456,17 @@ public List<Master> findMastersFilterByName(String orderByColumn,String ordering
         return masterList;
 
     }
+    /**
+     * Find Master entities count filtering by name
+     * @param con object with database
+     * @param orderByColumn column to order by
+     * @param orderingType type of ordering
+     * @param masterName master name filter
+     * @return Count of master entities entities if find operation went without exception and 0  otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
 @Override
-   public int findMastersFilterByNameCount(String orderByColumn,String orderingType,String masterName,Connection con) throws CustomDBException
+   public int findMastersFilterByNameCount(String orderByColumn,String orderingType,String masterName,Connection con) throws CustomDBException, SQLException
     {
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -451,8 +502,17 @@ public List<Master> findMastersFilterByName(String orderByColumn,String ordering
 
 
     }
+    /**
+     * Find Master entities count filtering by service
+     * @param con object with database
+     * @param orderByColumn column to order by
+     * @param orderingType type of ordering
+     * @param serviceName filter
+     * @return Count of master entities entities if find operation went without exception and 0  otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
-  public int findMastersFilterByServiceCount(String orderByColumn,String orderingType,String serviceName,Connection con) throws CustomDBException
+  public int findMastersFilterByServiceCount(String orderByColumn,String orderingType,String serviceName,Connection con) throws CustomDBException, SQLException
     {
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -489,9 +549,18 @@ public List<Master> findMastersFilterByName(String orderByColumn,String ordering
 
 
     }
-
+    /**
+     * Find Master entities count filtering by service and by master name
+     * @param con object with database
+     * @param orderByColumn column to order by
+     * @param orderingType type of ordering
+     * @param serviceName filter
+     * @param masterName filter
+     * @return Count of master entities entities if find operation went without exception and 0  otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
  @Override
-   public int findMastersFilterByServiceByNameCount(String orderByColumn,String orderingType,String masterName ,String serviceName,Connection con) throws CustomDBException
+   public int findMastersFilterByServiceByNameCount(String orderByColumn,String orderingType,String masterName ,String serviceName,Connection con) throws CustomDBException, SQLException
     {
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -530,8 +599,16 @@ public List<Master> findMastersFilterByName(String orderByColumn,String ordering
 
 
     }
+    /**
+     * Find Master entities count filtering
+     * @param con object with database
+     * @param orderByColumn column to order by
+     * @param orderingType type of ordering
+     * @return Count of master entities entities if find operation went without exception and 0  otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
-  public   int findMastersOrderedCount(String orderByColumn,String orderingType,Connection con) throws CustomDBException
+  public   int findMastersOrderedCount(String orderByColumn,String orderingType,Connection con) throws CustomDBException, SQLException
     {
 
         PreparedStatement statement = null;
@@ -566,42 +643,5 @@ public List<Master> findMastersFilterByName(String orderByColumn,String ordering
 
 
     }
-    @Override
-    public List<Master> findAllMaster(Connection con) throws CustomDBException {
-        List<Master> masterList = new ArrayList<>();
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try
-        {
-            String sqlQuery =PropUtil.getQuery("findAllMaster")  ;
-            statement = con.prepareStatement(sqlQuery);
-            rs = statement.executeQuery();
-            while(rs.next())
-            {
-                Master master = new Master();
-                master.setMasterId(rs.getInt("masterId"));
-                master.setUserId(rs.getInt("userId"));
-                master.setUserType(rs.getString("userType"));
-                master.setStartTime(rs.getTime("startTime").toLocalTime());
-                master.setEndTime(rs.getTime("endTime").toLocalTime());
-                master.setMasterName(rs.getString("masterName"));
-                master.setRating(rs.getDouble("rating"));
-                masterList.add(master);
-            }
 
-
-        }
-        catch (SQLException sqlException)
-        {
-            LOGGER.error(sqlException);
-            throw new CustomDBException("bad execution",sqlException.getMessage(),sqlException,sqlException.getErrorCode());
-        }
-        finally
-        {
-
-          ConnectionNeedUtil.close(rs,statement,null);
-        }
-
-       return masterList;
-   }
 }

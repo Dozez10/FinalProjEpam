@@ -14,6 +14,13 @@ import java.util.List;
 
 public class MySQLServiceDao implements ServiceDao {
     private static final Logger LOGGER = LogManager.getLogger(MySQLServiceDao.class);
+    /**
+     * Inserts Servce entity into database table
+     * @param con object with database
+     * @param service entity to be inserted
+     * @return true if insert operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean insertService(Service service, Connection con) throws CustomDBException {
         PreparedStatement statement = null;
@@ -47,7 +54,13 @@ public class MySQLServiceDao implements ServiceDao {
         }
        return result;
     }
-
+    /**
+     * Deletes Service entity from database table
+     * @param con object with database
+     * @param serviceType type by which service to be deleted
+     * @return true if delete operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean deleteService(String serviceType, Connection con) throws CustomDBException {
         String sqlQuery = null;
@@ -72,7 +85,14 @@ public class MySQLServiceDao implements ServiceDao {
 
        return result;
     }
-
+    /**
+     * Updates Service entity price   by service type
+     * @param con object with database
+     * @param serviceType type by which service to be find
+     * @param newPrice new price  to update
+     * @return true if update operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean updateService(String serviceType, double newPrice, Connection con) throws CustomDBException {
         String sqlQuery = null;
@@ -100,6 +120,13 @@ public class MySQLServiceDao implements ServiceDao {
 
        return result;
     }
+    /**
+     * Find Service entity by type
+     * @param con object with database
+     * @param type type by which service to be find
+     * @return Service entity if find operation went without exception and null otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
 
     @Override
     public Service findService(String type, Connection con) throws CustomDBException {
@@ -135,6 +162,14 @@ public class MySQLServiceDao implements ServiceDao {
 
        return service;
     }
+
+    /**
+     * Find Service entity by id
+     * @param con object with database
+     * @param serviceId id by which order to be find
+     * @return Service entity if find operation went without exception and null otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public Service findServiceById(int serviceId, Connection con) throws CustomDBException {
         PreparedStatement statement = null;
@@ -169,7 +204,12 @@ public class MySQLServiceDao implements ServiceDao {
 
         return service;
     }
-
+    /**
+     * Find all Service entities
+     * @param con object with database
+     * @return  List of  Service entities  if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public List<Service> findAllService(Connection con) throws CustomDBException {
         List<Service> serviceList = new ArrayList<>();

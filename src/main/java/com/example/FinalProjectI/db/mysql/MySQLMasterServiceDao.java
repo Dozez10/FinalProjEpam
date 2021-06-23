@@ -11,9 +11,18 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Data access object for MasterService related entities
+ */
 public class MySQLMasterServiceDao implements MasterServiceDao {
     private static final Logger LOGGER = LogManager.getLogger(MySQLMasterServiceDao.class);
+    /**
+     * Inserts MasterService entity into database table
+     * @param con object with database
+     * @param masterService entity to be inserted
+     * @return true if insert operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean insertMasterService(MasterService masterService, Connection con) throws CustomDBException {
         String sqlQuery = null;
@@ -40,7 +49,14 @@ public class MySQLMasterServiceDao implements MasterServiceDao {
 
        return result;
     }
-
+    /**
+     * Deletes MasterService entity from database table
+     * @param con object with database
+     * @param masterId id by which masterService to be deleted
+     * @param serviceId id by which masterService to be deleted
+     * @return true if delete operation went without exception and false otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public boolean deleteMasterService(int masterId, int serviceId , Connection con ) throws CustomDBException {
         String sqlQuery = null;
@@ -65,7 +81,13 @@ public class MySQLMasterServiceDao implements MasterServiceDao {
         return result;
     }
 
-
+    /**
+     * Find MasterService entities by filtering service name
+     * @param con object with database
+       @param masterId id to filter by
+     * @return List of MasterService entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public List<MasterService> findAllServicesByMaster(int masterId,Connection con) throws CustomDBException {
         List<MasterService> masterServiceList = new ArrayList<>();
@@ -96,6 +118,13 @@ public class MySQLMasterServiceDao implements MasterServiceDao {
         return masterServiceList;
     }
 
+    /**
+     * Find MasterService entities by filtering service name
+     * @param con object with database
+        @param serviceId id to filter by
+      * @return List of MasterService entities if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
    public List<MasterService> findAllMastersByService(int serviceId, Connection con) throws CustomDBException {
         List<MasterService> masterServiceList = new ArrayList<>();
@@ -125,7 +154,12 @@ public class MySQLMasterServiceDao implements MasterServiceDao {
         }
         return masterServiceList;
     }
-
+    /**
+     * Find all MasterService entities
+     * @param con object with database
+     * @return  List of  MasterService entities  if find operation went without exception and empty list otherwise
+     * @throws CustomDBException if SQLException at execution query arises
+     */
     @Override
     public List<MasterService> findAllMasterServices(Connection con) throws CustomDBException {
         List<MasterService> masterServiceList = new ArrayList<>();

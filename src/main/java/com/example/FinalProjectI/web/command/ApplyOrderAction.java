@@ -7,7 +7,10 @@ import com.example.FinalProjectI.services.SalonServiceOrder;
 import com.example.FinalProjectI.web.view.View;
 
 import javax.servlet.http.HttpServletRequest;
-
+/**
+ * Apply order
+ * @author Ivan Manuilenko
+ */
 public class ApplyOrderAction implements Action{
     @Override
     public void execute(View view) throws Exception {

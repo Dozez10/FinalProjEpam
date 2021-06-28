@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class SalonServiceOrder {
      * @return true if insert operation went without exception and false otherwise
      * @throws CustomApplicationException if SQLException at execution query arises
      */
-    public boolean insertOrder(Order order) throws CustomApplicationException {
+    public  boolean insertOrder(Order order) throws CustomApplicationException {
         boolean result = false;
         Connection connection = null;
         try{

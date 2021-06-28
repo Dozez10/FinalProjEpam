@@ -10,15 +10,10 @@ import java.util.Objects;
  * @author Ivan Manuilenko
  */
 public class Master {
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int masterId;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int userId;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String userType;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private LocalTime startTime;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private LocalTime endTime;
     private String masterName;
     private double rating;
